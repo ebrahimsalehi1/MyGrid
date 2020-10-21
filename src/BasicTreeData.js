@@ -43,6 +43,10 @@ const tableIcons = {
   };
 
     return (
+    <div>
+        
+      Number of data : {data.length+1}
+
       <MaterialTable
         title="Basic Tree Data Preview"
         icons={tableIcons}
@@ -57,6 +61,7 @@ const tableIcons = {
           selection: true,
         }}
       />
+      </div>
     )
   }
   
