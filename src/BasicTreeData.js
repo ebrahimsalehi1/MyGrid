@@ -19,6 +19,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import Button from '@material-ui/core/Button';
 
 export default function BasicTreeData(props) {
 
@@ -42,6 +43,12 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
+  const {selection} = props;
+
+  console.log('BasicTreeData is rendering',selection);
+
+    const editable={onRowUpdate:()=>{},onRowDelete:()=>{}};
+
     return (
     <div>
         
@@ -52,16 +59,27 @@ const tableIcons = {
         icons={tableIcons}
         data={data}
         columns={[
-          { title: 'name', field: 'name' },
-          { title: 'surname', field: 'surname' },
-          { title: 'sex', field: 'sex' },
+          { title: 'description', field: 'description' },
+          { title: 'code', field: 'code' },
+          { title: 'type', field: 'type' },
         ]}
         parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
         options={{
-          selection: true,
+          selection: selection,
+          // rowStyle: {
+          //   backgroundColor: '#EEE',
+          // }
         }}
+        editable={editable}
+        actions={
+          [
+            {isFreeAction:true,icon:()=>(<Button variant={"contained"} color={"primary"}>ایجاد</Button>),tooltip:'ایجاد',onClick:(event,rowData)=>{console.log('onclick');}},
+            //{icon:Edit,tooltip:'ویرایش',onClick:(event,rowData)=>{console.log('edit');}},
+            //{icon:DeleteOutline,tooltip:'حذف',onClick:(event,rowData)=>{}}
+          ]      
+        }
       />
-      </div>
+    </div>
     )
   }
   
