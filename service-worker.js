@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/MyGrid/precache-manifest.7050e0354d5a63e13d79dac040b2c95a.js"
+  "/MyGrid/precache-manifest.034f443f1adaf4a0e11dfe123fdb209e.js"
 );
 
 self.addEventListener('message', (event) => {
