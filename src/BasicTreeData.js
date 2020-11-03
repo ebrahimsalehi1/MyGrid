@@ -2,9 +2,10 @@ import React from 'react'
 import MaterialTable from 'material-table'
 import { forwardRef } from 'react';
 
-import data from './db.json';
+import dataInternal from './db.json';
 
 import AddBox from '@material-ui/icons/AddBox';
+import Add from '@material-ui/icons/Add';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -43,16 +44,31 @@ const tableIcons = {
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
 
-  const {selection} = props;
+  const {icons,columns,data,actions,editable,title,endpoint,
+    url,gridLoad,
+    formItemsAdd,formItemsEdit,
+    options,parentChildData,
+} = props;
+
+  const [data,setData] = React.useState(props.data ? props.data : dataInternal);
 
   console.log('BasicTreeData is rendering',selection);
 
-    const editable={onRowUpdate:()=>{},onRowDelete:()=>{}};
+  // onRowAdd:newData=>
+  // new Promise((resolve,reject)=>{
+  //   console.log("add data",newData);
+  //   //setData([...data,newData]);
+  //   resolve();
+  // }),
+
+    const editable={
+      onRowUpdate:()=>{},
+      onRowDelete:()=>{}};
 
     return (
     <div>
         
-      Number of data : {data.length+1}
+      Number of data : {data ? data.length+1 : "0"}
 
       <MaterialTable
         title="Basic Tree Data Preview"
@@ -73,11 +89,20 @@ const tableIcons = {
         editable={editable}
         actions={
           [
-            {isFreeAction:true,icon:()=>(<Button variant={"contained"} color={"primary"}>ایجاد</Button>),tooltip:'ایجاد',onClick:(event,rowData)=>{console.log('onclick');}},
-            //{icon:Edit,tooltip:'ویرایش',onClick:(event,rowData)=>{console.log('edit');}},
+            //{isFreeAction:true,icon:()=>(<Button variant={"contained"} color={"primary"}>ایجاد</Button>),tooltip:'ایجاد',onClick:(event,rowData)=>{console.log('onclick');}},
+            {icon:Add,tooltip:'Add',onClick:(event,rowData)=>  
+                                                            new Promise((resolve,reject)=>{
+                                                              console.log("add data",rowData);
+                                                              //setData([...data,newData]);
+                                                              resolve();
+                                                            }),
+            },
             //{icon:DeleteOutline,tooltip:'حذف',onClick:(event,rowData)=>{}}
           ]      
         }
+        onTreeExpandChange={(event, nodes)=>{
+          console.log('onTreeExpandChange',nodes,nodes.length);
+        }}
       />
     </div>
     )
