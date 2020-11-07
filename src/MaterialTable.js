@@ -116,7 +116,7 @@ export default function MaterialTableDemo(props) {
         url,gridLoad,
         formItemsAdd,formItemsEdit,
         options,parentChildData,detailPanel,
-        onTreeExpandChange,
+        onTreeExpandChange,...others
     } = props;
 
     const [state, setState] = React.useState({
@@ -227,11 +227,13 @@ export default function MaterialTableDemo(props) {
                         fontSize:12
                     },
                     toolbarButtonAlignment:'left',
+                    toolbarAlignment:'left',
                     //selection: true
                 }}
                 parentChildData={parentChildData}
                 onTreeExpandChange={onTreeExpandChange}
                 detailPanel={detailPanel}
+                {...others}
             />
         </div>
         </MuiThemeProvider>

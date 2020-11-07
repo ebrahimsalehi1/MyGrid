@@ -12,46 +12,63 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 function Form(props){
 
+    const {onSave} = props;
+    const [data,setData] = React.useState({});
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} md={4}>
-                <TextField label="description" placeholder="description"/>
+                <TextField label="description" placeholder="description" 
+                value={data.description} 
+                onChange={event=>setData({...data,description:event.target.value})}/>
             </Grid>   
             <Grid item xs={12} md={4}>
-                <TextField label="code" placeholder="code"/>
+                <TextField label="code" placeholder="code"
+                value={data.code} 
+                onChange={event=>setData({...data,code:event.target.value})}/>                                
             </Grid>   
             <Grid item xs={12} md={4}>
-                <Select value="TEC">
+                <Select value={data.type} onChange={(e,newValue)=>console.log(e,newValue)}>
                     <MenuItem value="TEC">TEC</MenuItem>
                     <MenuItem value="PROD">PROD</MenuItem>
                     <MenuItem value="HR">HR</MenuItem>
                     <MenuItem value="ASSETINLOCATION">ASSETINLOCATION</MenuItem>
                 </Select>
             </Grid>   
-            {props.type==='detail' &&        
-            <Grid item xs={12} md={3}>
-                <Button variant="contained" color="primary">Save</Button>
+            {//props.type==='detail' &&        
+            <Grid item xs={12} md={12}>
+                <Button variant="contained" color="primary" onClick={()=>{                   
+                    onSave({description:data.description,code:data.code,type:data.type});
+                }}>Save</Button>
             </Grid>  
             }        
         </Grid>
     )
 }
 
+
 export default function ShowForm(props){
-    const {type,columns,onClose}=props;
+    const {type,columns,onClose,onSave}=props;
     const [open,setOpen] = React.useState(true);
 
+    
     return (
         <>
         {type==='dialog' && 
         <Dialog open={true} onClose={onClose}>
             <DialogTitle>Title of Dialog</DialogTitle>
             <DialogContent>
-                <Form />
+                <Form 
+                    type={type}
+                    onSave={newData=>{
+                        onSave(newData);
+                        onClose();
+                    }}                
+                />
             </DialogContent>
             <DialogActions>
-                <Button variant="outlined" color="primary" onClick={()=>{}}>Ok</Button>
-                <Button variant="outlined" color="primary" onClick={onClose}>Cancel</Button>
+                {/* <Button variant="outlined" color="primary" onClick={()=>{onSave(newData)}}>Ok</Button> */}
+                {/* <Button variant="outlined" color="primary" onClick={onClose}>Cancel</Button> */}
             </DialogActions>
         </Dialog>
         }
@@ -59,6 +76,9 @@ export default function ShowForm(props){
             type==='detail' && 
             <Form
             type={type}
+            onSave={()=>{
+                onSave();
+            }}
             />
         }
         </>
