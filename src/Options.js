@@ -19,9 +19,15 @@ export default function Options(props){
     const [data,setData] = React.useState(props.data);
     const [rowExpanded,setRowExpanded] = React.useState(null);
     const [rowData,setRowData] = React.useState();
+    const COLORS = {
+        prod:{backgroundColor:'#ff0012',color:'black'},
+        hr:{backgroundColor:'#00ff00',color:'black'},
+        assetinlocation:{backgroundColor:'#0000ff',color:'white'},
+        others:{}
+    };
 
     const columns=[
-    { title: 'description', field: 'description',render:rowData=>(rowData.type==='PROD' ? <a href="http://aaaa" target="blank">{rowData.description}</a> : rowData.description) },
+        { title: 'description', field: 'description',render:rowData=>(rowData.type==='PROD' ? <a href="http://aaaa" target="blank">{rowData.description}</a> : rowData.description) },
         { title: 'code', field: 'code'},
         { title: 'type', field: 'type'},
     ];
@@ -153,18 +159,22 @@ export default function Options(props){
 
     return (
         <Grid container spacing={1}>
+            <Grid item xs={12} md={4}>
+            <div style={{width:20,height:20,backgroundColor:'#FF0000'}}/>PROD
+            </Grid>            
+
+            <Grid item xs={12} md={4}>
+            <div style={{width:20,height:20,backgroundColor:'#00FF00'}}/>HR
+            </Grid>            
+
+
+            <Grid item xs={12} md={4}>
+            <div style={{width:20,height:20,backgroundColor:'#0000FF'}}/>ASSETINLOCATION
+            </Grid>            
+
+            <Grid item xs={12} md={12}>
             count:{data.length}
-            {/* <Grid item xs={12} md={12}>
-                <FormControlLabel
-                control={
-                <Switch 
-                value={addMode}
-                onChange={e=>{setAddMode(e.target.checked)}}
-                />
-                }
-                label="Add Mode"
-                />
-            </Grid> */}
+            </Grid>
             <Grid item xs={12} md={12}>
                 <MaterialTable 
                 columns={columns}
@@ -213,12 +223,12 @@ export default function Options(props){
 
                     },
                     cellStyle:(event,rowData)=>{
-                        //console.log('cellStyle',event,rowData);
-                        return {
-                            backgroundColor:event===rowData.description && rowData.type==='PROD'  ? '#EEE':'#FFF',
-                            //onClick:e=>alert('click me please')
-                        }
-                }
+                        return (
+                            event===rowData.description && rowData.type==='PROD'  ? COLORS.prod :
+                            event===rowData.description && rowData.type==='HR' ? COLORS.hr :
+                            event===rowData.description && rowData.type==='ASSETINLOCATION' ? COLORS.assetinlocation : COLORS.other
+                        )                        
+                    }
                 }}
                 onRowClick={(event,rowData) => setRowData(rowData)}
                 />
