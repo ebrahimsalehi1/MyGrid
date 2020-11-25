@@ -75,7 +75,7 @@ export default function Options(props){
     let detailPanel = [];
 
     const editable={
-        onRowAdd:newData=>new Promise((resolve,reject)=>{
+        onRowAdd: newData => new Promise((resolve,reject)=>{
             console.log('onRowAdd',newData);     
             try{
                 let max = 0;
